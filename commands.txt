@@ -1,0 +1,83 @@
+## commands from terminal
+mkdir my-app
+cd my-app
+npm init -y  -- creates package.json file with default configurations
+npm install react react-dom  -- install react and react-dom dependencies
+vim .gitignore -- creates gitigonre file
+mkdir app --create app folder in your project folder
+cd app
+touch index.js index.css -- creates two files in app directory
+npm install --save-dev @babel/core @babel/preset-env @babel/preset-react webpack webpack-cli webpack-dev-server babel-loader css-loader style-loader html-webpack-plugin  -- adding all require depnendincies to the project
+touch webpack.config.js -- creating webpack configurations file
+
+index.html
+=====================================
+<!DOCTYPE html>
+<html>
+    <head><title>
+        my-app
+    </title></head>
+    <body>
+        <div id="app"></div>
+    </body>
+</html>
+
+index.js
+========================================
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+
+class App extends React.Component{
+    render(){
+        return(
+            <div>Hello World</div>
+        )
+    }
+}
+
+ReactDOM.render(<App />, document.getElementById('app'))
+
+
+Add in package.json
+================================================
+  "babel":{
+    "presets" : [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
+  "scripts": {
+    "start": "webpack-dev-server --open"
+  },
+
+
+webpack.config.js
+======================================================
+
+var path = require("path");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+
+module.exports = {
+  entry: "./app/index.js",
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "index_bundle.js",
+  },
+  module: {
+    rules: [
+      { test: /\.(js)$/, use: "babel-loader" },
+      { test: /\.css$/, use: ["style-loader", "css-loader"] },
+    ],
+  },
+  mode: "development",
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "app/index.html",
+    }),
+  ],
+};
+
+
+
+
